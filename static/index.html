@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>People Counter</title><link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <main>
+      <header><div><p class="eyebrow">LIVE</p><h1>People counter</h1></div><span id="status" class="status">Starting…</span></header>
+      <section class="stats"><article><p>Inside</p><strong id="inside">—</strong></article><article><p>Entered today</p><strong id="entered">—</strong></article><article><p>Exited today</p><strong id="exited">—</strong></article></section>
+      <section class="video"><img src="/stream.mjpg" alt="Live camera feed with detections"></section>
+      <section class="history"><h2>History</h2><ol id="history"><li>Loading…</li></ol></section>
+    </main>
+    <script src="/static/dashboard.js"></script>
+  </body>
+</html>

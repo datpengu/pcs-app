@@ -1,20 +1,28 @@
 
+from pathlib import Path
+
 from ultralytics import YOLO
 
 
 class PersonDetector:
-    def __init__(self):
+    def __init__(self, model_name="yolo11n.pt", confidence=0.25):
+        app_dir = Path(__file__).resolve().parent
+        model_path = Path(model_name)
+        if not model_path.is_absolute():
+            model_path = app_dir / model_path
         print("Loading YOLO model...")
-        self.model = YOLO("yolo11n.pt")
+        self.model = YOLO(model_path)
+        self.confidence = confidence
+        self.tracker_config = app_dir / "bytetrack.yaml"
         print("YOLO model loaded!")
 
     def track(self, frame):
         results = self.model.track(
             frame,
             persist=True,
-            tracker="bytetrack.yaml",
+            tracker=str(self.tracker_config),
             classes=[0],
-            conf=0.25,
+            conf=self.confidence,
             verbose=False
         )
 

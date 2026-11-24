@@ -4,11 +4,14 @@ class PeopleCounter:
         self,
         line_position=0.5,
         margin=20,
-        confirmation_frames=3
+        confirmation_frames=3,
+        initial_inside=0,
+        initial_entered=0,
+        initial_exited=0,
     ):
-        self.people_inside = 0
-        self.total_entered = 0
-        self.total_exited = 0
+        self.people_inside = initial_inside
+        self.total_entered = initial_entered
+        self.total_exited = initial_exited
 
         self.line_position = line_position
         self.margin = margin
@@ -21,6 +24,7 @@ class PeopleCounter:
         self.frame_number += 1
 
         line_x = int(frame_width * self.line_position)
+        events = []
 
         for person in people:
             track_id = person["id"]
@@ -79,6 +83,7 @@ class PeopleCounter:
                     self.people_inside += 1
                     self.total_entered += 1
                     print(f"Person {track_id} entered!")
+                    events.append({"direction": "entered", "track_id": track_id, "inside": self.people_inside})
 
                 elif previous_side == 1 and new_side == -1:
                     self.people_inside = max(
@@ -86,6 +91,7 @@ class PeopleCounter:
                     )
                     self.total_exited += 1
                     print(f"Person {track_id} exited!")
+                    events.append({"direction": "exited", "track_id": track_id, "inside": self.people_inside})
 
                 data["confirmed_side"] = new_side
                 data["candidate_side"] = 0
@@ -105,5 +111,6 @@ class PeopleCounter:
             "inside": self.people_inside,
             "entered": self.total_entered,
             "exited": self.total_exited,
-            "line_x": line_x
+            "line_x": line_x,
+            "events": events,
         }
